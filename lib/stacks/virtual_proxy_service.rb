@@ -23,26 +23,30 @@ module Stacks::XProxyService
 
   def vhost(service, options={}, &config_block)
      key = "#{self.name}.vhost.#{service}.server_name"
-    _vhost(key, vip_front_fqdn, service, options, &config_block)
+    _vhost(key, vip_front_fqdn, vip_fqdn, service, options, &config_block)
   end
 
   def sso_vip_front_fqdn
     "#{environment.name}-#{name}-sso-vip.front.#{@domain}"
   end
 
-  def sso_vhost(service, options={}, &config_block)
-     key = "#{self.name}.vhost.#{service}-sso.server_name"
-     _vhost(key, sso_vip_front_fqdn, service, options, &config_block)
+  def sso_vip_fqdn
+    "#{environment.name}-#{name}-sso-vip.#{@domain}"
   end
 
-  def _vhost(key, default_vhost_fqdn, service, options={}, &config_block)
+  def sso_vhost(service, options={}, &config_block)
+     key = "#{self.name}.vhost.#{service}-sso.server_name"
+     _vhost(key, sso_vip_front_fqdn, sso_vip_fqdn, service, options, &config_block)
+  end
+
+  def _vhost(key, default_vhost_fqdn, alias_fqdn, service, options={}, &config_block)
    if (environment.options.has_key?(key))
       proxy_vhost = Stacks::ProxyVHost.new(environment.options[key] || default_vhost_fqdn, service, &config_block)
       proxy_vhost.with_alias(default_vhost_fqdn)
     else
       proxy_vhost = Stacks::ProxyVHost.new(default_vhost_fqdn, service, &config_block)
     end
-    proxy_vhost.with_alias(vip_fqdn)
+    proxy_vhost.with_alias(alias_fqdn)
     @proxy_vhosts << @proxy_vhosts_lookup[key] = proxy_vhost
   end
 

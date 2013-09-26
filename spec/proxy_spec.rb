@@ -50,7 +50,7 @@ describe_stack 'exampleproxy' do
           "proxy_pass_rules"=>{
             "/"=>"http://e1-exampleapp-vip.space.net.local:8000"},
             "aliases"=>[
-            "e1-exampleproxy-vip.space.net.local"],
+            "e1-exampleproxy-sso-vip.space.net.local"],
             "application"=>"example",
             "redirects"=>[]},
 
@@ -67,7 +67,7 @@ describe_stack 'exampleproxy' do
             "/"=>"http://e1-exampleapp2-vip.space.net.local:8000"},
             "aliases"=>[
               "e1-exampleproxy-sso-vip.front.space.net.local",
-              "e1-exampleproxy-vip.space.net.local"],
+              "e1-exampleproxy-sso-vip.space.net.local"],
             "application"=>"example",
             "redirects"=>[]}},
         "prod_vip_fqdn"=>"e1-exampleproxy-vip.space.net.local"}})
