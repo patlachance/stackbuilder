@@ -20,16 +20,30 @@ module Stacks::XProxyService
     @ports = [80, 443]
   end
 
+
   def vhost(service, options={}, &config_block)
-    key = "#{self.name}.vhost.#{service}.server_name"
-    if (environment.options.has_key?(key))
-      proxy_vhost = Stacks::ProxyVHost.new(environment.options[key] || vip_front_fqdn, service, &config_block)
+     key = "#{self.name}.vhost.#{service}.server_name"
+    _vhost(key, vip_front_fqdn, service, options, &config_block)
+  end
+
+  def sso_vip_front_fqdn
+    "#{environment.name}-#{name}-sso-vip.front.#{@domain}"
+  end
+
+  def sso_vhost(service, options={}, &config_block)
+     key = "#{self.name}.vhost.#{service}-sso.server_name"
+     _vhost(key, sso_vip_front_fqdn, service, options, &config_block)
+  end
+
+  def _vhost(key, default_vhost_fqdn, service, options={}, &config_block)
+   if (environment.options.has_key?(key))
+      proxy_vhost = Stacks::ProxyVHost.new(environment.options[key] || default_vhost_fqdn, service, &config_block)
       proxy_vhost.with_alias(vip_front_fqdn)
     else
-      proxy_vhost = Stacks::ProxyVHost.new(vip_front_fqdn, service, &config_block)
+      proxy_vhost = Stacks::ProxyVHost.new(default_vhost_fqdn, service, &config_block)
     end
     proxy_vhost.with_alias(vip_fqdn)
-    @proxy_vhosts << @proxy_vhosts_lookup[service] = proxy_vhost
+    @proxy_vhosts << @proxy_vhosts_lookup[key] = proxy_vhost
   end
 
   def find_virtual_service(service)
