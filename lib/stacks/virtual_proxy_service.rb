@@ -84,7 +84,8 @@ module Stacks::XProxyService
         'aliases' => vhost.aliases,
         'redirects' => vhost.redirects,
         'application' => primary_app.application,
-        'proxy_pass_rules' => proxy_pass_rules
+        'proxy_pass_rules' => proxy_pass_rules,
+        'type'  => 'default'
       }]
     end]
 

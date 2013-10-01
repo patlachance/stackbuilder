@@ -44,7 +44,8 @@ describe_stack 'exampleproxy' do
             },
             "aliases"=>["e1-exampleproxy-vip.space.net.local"],
             "application"=>"example",
-            "redirects"=>[]
+            "redirects"=>[],
+            "type"=>"default"
           },
           "e1-exampleproxy-sso-vip.front.space.net.local"=>{
             "proxy_pass_rules"=>{
@@ -52,7 +53,8 @@ describe_stack 'exampleproxy' do
             },
             "aliases"=>["e1-exampleproxy-sso-vip.space.net.local"],
             "application"=>"example",
-            "redirects"=>[]
+            "redirects"=>[],
+            "type"=>"default"
           },
           "example.overridden"=>{
             "proxy_pass_rules"=>{
@@ -64,7 +66,7 @@ describe_stack 'exampleproxy' do
             ],
             "application"=>"example",
             "redirects"=>[],
-            "type"=>"sso"
+            "type"=>"default"
           },
           "example-sso.overridden"=>{
             "proxy_pass_rules"=>{
@@ -76,7 +78,7 @@ describe_stack 'exampleproxy' do
             ],
             "application"=>"example",
             "redirects"=>[],
-            "type"=>"sso"
+            "type"=>"default"
           }
         },
         "prod_vip_fqdn"=>"e1-exampleproxy-vip.space.net.local"
