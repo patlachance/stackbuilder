@@ -37,8 +37,8 @@ describe_stack 'exampleproxy' do
   host("e1-exampleproxy-001.mgmt.space.net.local") do |host|
 
     host.cnames.should eql({
-      "e1-exampleproxy-vip.space.net.local" => "e1-exampleproxy-sso-vip.space.net.local",
-       "e1-exampleproxy-vip.front.space.net.local" => "e1-exampleproxy-sso-vip.front.space.net.local"}
+      "e1-exampleproxy-sso-vip.space.net.local" => "e1-exampleproxy-vip.space.net.local",
+       "e1-exampleproxy-sso-vip.front.space.net.local" => "e1-exampleproxy-vip.front.space.net.local"}
 
     )
 

@@ -25,8 +25,8 @@ class Stacks::ProxyServer < Stacks::MachineDef
 
   def cnames
     {
-      virtual_service.vip_fqdn => virtual_service.sso_vip_fqdn,
-      virtual_service.vip_front_fqdn => virtual_service.sso_vip_front_fqdn
+      virtual_service.sso_vip_fqdn => virtual_service.vip_fqdn,
+      virtual_service.sso_vip_front_fqdn => virtual_service.vip_front_fqdn
     }
   end
 end
