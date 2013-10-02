@@ -35,55 +35,61 @@ describe_stack 'exampleproxy' do
   end
 
   host("e1-exampleproxy-001.mgmt.space.net.local") do |host|
-    host.to_enc.should eql({
-      "role::proxyserver"=>{
-        "vhosts"=>{
-          "e1-exampleproxy-vip.front.space.net.local"=>{
-            "proxy_pass_rules"=>{
-              "/"=>"http://e1-exampleapp-vip.space.net.local:8000"
-            },
-            "aliases"=>["e1-exampleproxy-vip.space.net.local"],
-            "application"=>"example",
-            "redirects"=>[],
-            "type"=>"default"
 
-          },
-          "e1-exampleproxy-sso-vip.front.space.net.local"=>{
-            "proxy_pass_rules"=>{
-              "/"=>"http://e1-exampleapp-vip.space.net.local:8000"
-            },
-            "aliases"=>["e1-exampleproxy-sso-vip.space.net.local"],
-            "application"=>"example",
-            "redirects"=>[],
-            "type"=>"sso"
-          },
-          "example.overridden"=>{
-            "proxy_pass_rules"=>{
-              "/"=>"http://e1-exampleapp2-vip.space.net.local:8000"
-            },
-            "aliases"=>[
-              "e1-exampleproxy-vip.front.space.net.local",
-              "e1-exampleproxy-vip.space.net.local"
-            ],
-            "application"=>"example",
-            "redirects"=>[],
-            "type"=>"default"
-          },
-          "example-sso.overridden"=>{
-            "proxy_pass_rules"=>{
-              "/"=>"http://e1-exampleapp2-vip.space.net.local:8000"
-            },
-            "aliases"=>[
-              "e1-exampleproxy-sso-vip.front.space.net.local",
-              "e1-exampleproxy-sso-vip.space.net.local"
-            ],
-            "application"=>"example",
-            "redirects"=>[],
-            "type"=>"sso"
-          }
-        },
+    host.cnames.should eql({
+      "e1-exampleproxy-vip.space.net.local" => "e1-exampleproxy-sso-vip.space.net.local",
+       "e1-exampleproxy-vip.front.space.net.local" => "e1-exampleproxy-sso-vip.front.space.net.local"}
+
+    )
+
+      host.to_enc.should eql({
+        "role::proxyserver"=>{
+        "vhosts"=>{
+        "e1-exampleproxy-vip.front.space.net.local"=>{
+        "proxy_pass_rules"=>{
+        "/"=>"http://e1-exampleapp-vip.space.net.local:8000"
+      },
+        "aliases"=>["e1-exampleproxy-vip.space.net.local"],
+        "application"=>"example",
+        "redirects"=>[],
+        "type"=>"default",
+      },
+      "e1-exampleproxy-sso-vip.front.space.net.local"=>{
+        "proxy_pass_rules"=>{
+        "/"=>"http://e1-exampleapp-vip.space.net.local:8000"
+      },
+        "aliases"=>["e1-exampleproxy-sso-vip.space.net.local"],
+        "application"=>"example",
+        "redirects"=>[],
+        "type"=>"sso"
+      },
+        "example.overridden"=>{
+        "proxy_pass_rules"=>{
+        "/"=>"http://e1-exampleapp2-vip.space.net.local:8000"
+      },
+        "aliases"=>[
+          "e1-exampleproxy-vip.front.space.net.local",
+          "e1-exampleproxy-vip.space.net.local"
+      ],
+        "application"=>"example",
+        "redirects"=>[],
+        "type"=>"default"
+      },
+        "example-sso.overridden"=>{
+        "proxy_pass_rules"=>{
+        "/"=>"http://e1-exampleapp2-vip.space.net.local:8000"
+      },
+        "aliases"=>[
+          "e1-exampleproxy-sso-vip.front.space.net.local",
+          "e1-exampleproxy-sso-vip.space.net.local"
+      ],
+        "application"=>"example",
+        "redirects"=>[],
+        "type"=>"sso"
+      }
+      },
         "prod_vip_fqdn"=>"e1-exampleproxy-vip.space.net.local"
       }
-    })
+      })
   end
 end
