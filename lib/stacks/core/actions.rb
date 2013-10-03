@@ -23,7 +23,7 @@ module Stacks::Core::Actions
         services.logger.info "#{machine.mgmt_fqdn} *would be* allocated to #{host.fqdn}\n"
       end
 
-   end
+    end
 
     object.action 'launch' do |services, machine_def|
       machines = machine_def.flatten
@@ -63,6 +63,15 @@ module Stacks::Core::Actions
         end
       end
     end
+  end
+
+  object.action 'allocate_cnames' do |services, machine_def|
+    cnames = []
+    machine_def.accept do |child_machine_def|
+      cnames << child_machine_def.cnames if child_machine_def.respond_to?(:cnames)
+    end
+
+    services.compute_controller.allocate_cnames(cnames_to_allocate)
   end
 
   def self.included(object)
